@@ -6,7 +6,7 @@ load_dotenv()
 
 def check_status(page):
     html = page.locator('//*[@id="view"]/containers-view/div[2]/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[3]/span').inner_html()
-    if (html != 'healthy' or html != 'running'):
+    if (html != 'healthy'):
         return False
     else:
         return True
