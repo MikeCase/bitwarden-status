@@ -5,8 +5,8 @@ import os
 load_dotenv()
 
 def check_status(page):
-    html = page.inner_html('span.label')
-    if (html != 'healthy'):
+    html = page.locator('//*[@id="view"]/containers-view/div[2]/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[3]/span').inner_html()
+    if (html != 'healthy' or html != 'running'):
         return False
     else:
         return True
@@ -39,10 +39,10 @@ def run(playwright: Playwright) -> None:
     if check_status(page):
         print("Server is healthy.") # Good Continue
     else:
-        print("Server unhealthy restarting bitwarden..") # Not good, restart bitwarden. 
-        page.get_by_role("row", name="Click to select this row bitwarden_bitwarden_1 healthy Logs Inspect Stats Exec Console Attach Console bitwarden docker.io/vaultwarden/server:latest 2022-05-01 23:45:14 172.18.0.2 none 8088:80 administrators").get_by_role("checkbox", name="Click to select this row").check()
+        print("Server unhealthy restarting bitwarden..") # Not good, restart bitwarden.
+        page.locator('//*[@id="view"]/containers-view/div[2]/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[1]/div/input').click()
         page.get_by_role("button", name="Restart").click()
-        
+
     print("Closing.")
 
     # ---------------------
